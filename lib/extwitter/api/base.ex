@@ -90,8 +90,9 @@ defmodule ExTwitter.API.Base do
     "https://upload.twitter.com/#{path}"
   end
 
-  def parse_result(result) do
-    {:ok, {_response, header, body}} = result
+  def parse_result({:ok, {_response, _header, []}}), do: []
+
+  def parse_result({:ok, {_response, header, body}}) do
     verify_response(ExTwitter.JSON.decode!(body), header)
   end
 
